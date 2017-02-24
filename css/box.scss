@@ -1,0 +1,40 @@
+@import "sprite.scss";
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    text-align: center;
+}
+
+.check {
+    i {
+        display: inline-block;
+        @include sprite($checkbox_de);
+    }
+    input {
+        visibility: hidden;
+        &:checked + i {
+            @include sprite($checkbox_ac);
+        }
+    }
+}
+
+.radio {
+    label {
+        &:after {
+            content: '';
+            display: inline-block;
+            @include sprite($radio_de);
+        }
+        &.active:after {
+            content: '';
+            display: inline-block;
+            @include sprite($radio_ac);
+        }
+    }
+    input {
+        visibility: hidden;
+    }
+}

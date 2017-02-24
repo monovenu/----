@@ -1,0 +1,129 @@
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: $icon-home-width;
+}
+
+The large array-like variables contain all information about a single icon
+$icon-home: x y offset_x offset_y width height total_width total_height image_path;
+
+At the bottom of this section, we provide information about the spritesheet itself
+$spritesheet: width height image $spritesheet-sprites;
+*/
+$checkbox-ac-name: 'checkbox_ac';
+$checkbox-ac-x: 0px;
+$checkbox-ac-y: 16px;
+$checkbox-ac-offset-x: 0px;
+$checkbox-ac-offset-y: -16px;
+$checkbox-ac-width: 14px;
+$checkbox-ac-height: 14px;
+$checkbox-ac-total-width: 32px;
+$checkbox-ac-total-height: 30px;
+$checkbox-ac-image: 'sprite.png';
+$checkbox-ac: (0px, 16px, 0px, -16px, 14px, 14px, 32px, 30px, 'sprite.png', 'checkbox_ac', );
+$checkbox-de-name: 'checkbox_de';
+$checkbox-de-x: 14px;
+$checkbox-de-y: 16px;
+$checkbox-de-offset-x: -14px;
+$checkbox-de-offset-y: -16px;
+$checkbox-de-width: 14px;
+$checkbox-de-height: 14px;
+$checkbox-de-total-width: 32px;
+$checkbox-de-total-height: 30px;
+$checkbox-de-image: 'sprite.png';
+$checkbox-de: (14px, 16px, -14px, -16px, 14px, 14px, 32px, 30px, 'sprite.png', 'checkbox_de', );
+$radio-ac-name: 'radio_ac';
+$radio-ac-x: 0px;
+$radio-ac-y: 0px;
+$radio-ac-offset-x: 0px;
+$radio-ac-offset-y: 0px;
+$radio-ac-width: 16px;
+$radio-ac-height: 16px;
+$radio-ac-total-width: 32px;
+$radio-ac-total-height: 30px;
+$radio-ac-image: 'sprite.png';
+$radio-ac: (0px, 0px, 0px, 0px, 16px, 16px, 32px, 30px, 'sprite.png', 'radio_ac', );
+$radio-de-name: 'radio_de';
+$radio-de-x: 16px;
+$radio-de-y: 0px;
+$radio-de-offset-x: -16px;
+$radio-de-offset-y: 0px;
+$radio-de-width: 16px;
+$radio-de-height: 16px;
+$radio-de-total-width: 32px;
+$radio-de-total-height: 30px;
+$radio-de-image: 'sprite.png';
+$radio-de: (16px, 0px, -16px, 0px, 16px, 16px, 32px, 30px, 'sprite.png', 'radio_de', );
+$spritesheet-width: 32px;
+$spritesheet-height: 30px;
+$spritesheet-image: 'sprite.png';
+$spritesheet-sprites: ($checkbox-ac, $checkbox-de, $radio-ac, $radio-de, );
+$spritesheet: (32px, 30px, 'sprite.png', $spritesheet-sprites, );
+
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+/*
+The `sprites` mixin generates identical output to the CSS template
+  but can be overridden inside of SCSS
+
+@include sprites($spritesheet-sprites);
+*/
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}
